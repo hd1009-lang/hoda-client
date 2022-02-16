@@ -1,7 +1,7 @@
 import axios, { AxiosResponse } from 'axios';
 
 const axiosClient = axios.create({
-    baseURL: process.env.URI_SERVER as string,
+    baseURL: process.env.NEXTAUTH_URL as string,
     withCredentials: true,
     headers: {
         'Content-Type': 'application/json',
