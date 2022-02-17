@@ -1,7 +1,6 @@
 import { AuthAccessToken, AuthLogin, AuthModel } from './../Type/AuthType';
 import { User } from '../Type/UserType';
 import axiosClient from './axiosClient';
-
 const AuthApis = {
     login: async (data: AuthModel): Promise<AuthLogin<User>> => {
         try {
@@ -14,7 +13,7 @@ const AuthApis = {
     getAccessToken: async (): Promise<AuthAccessToken> => {
         try {
             const url = '/api/users/refresh_token';
-            return await axiosClient.get(url);
+            return await axiosClient.post(url, {});
         } catch (error) {
             throw error;
         }

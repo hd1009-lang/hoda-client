@@ -4,7 +4,7 @@ import { combineReducers } from 'redux';
 
 export interface RootState {
     auth: LoginStateModel;
-    notifications: NotificationModel;
+    notifications: NotificationModel[];
 }
 
 const rootReducer = combineReducers({

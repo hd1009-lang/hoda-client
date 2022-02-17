@@ -1,5 +1,5 @@
-import { Box, Flex, FormControl, FormErrorMessage, FormLabel, Input, Button, Heading } from '@chakra-ui/react';
 import React, { useEffect } from 'react';
+import { Box, Flex, FormControl, FormErrorMessage, FormLabel, Input, Button, Heading } from '@chakra-ui/react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import AuthApis from '../api/Auth';
@@ -10,6 +10,11 @@ import { RootState } from '../redux/Reducers';
 const LoginPage = () => {
     const dispatch = useDispatch();
     const token = useSelector((state: RootState) => state.auth.token);
+    useEffect(() => {
+        if (token) {
+            Router.push('/');
+        }
+    }, [dispatch, token]);
     const {
         handleSubmit,
         register,
@@ -19,11 +24,7 @@ const LoginPage = () => {
     const onLogin: SubmitHandler<AuthModel> = async (data) => {
         dispatch(LoginAction(data));
     };
-    useEffect(() => {
-        if (token) {
-            Router.push('/');
-        }
-    }, [dispatch, token]);
+
     return (
         <Flex
             width={'100%'}

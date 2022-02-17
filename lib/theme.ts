@@ -10,6 +10,8 @@ const fonts = {
 };
 const colors = {
     lightGray: '#EEEEEE',
+    lightSuccess: '#C1F4C5',
+    lightError: '#F2789F',
 };
 const theme = extendTheme({ config, colors, fonts });
 export default theme;

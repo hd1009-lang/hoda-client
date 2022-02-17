@@ -5,6 +5,7 @@ import styles from '../styles/Home.module.css';
 import { RootState } from '../redux/Reducers';
 import { useEffect, useState } from 'react';
 import { Box } from '@chakra-ui/react';
+import AuthApis from '../api/Auth';
 const Home: NextPage = () => {
     const token = useSelector((state: RootState) => state.auth.token);
     const [loading, setLoading] = useState(false);
@@ -23,6 +24,10 @@ const Home: NextPage = () => {
             </Box>
         );
     }
+    // const onCheck = async () => {
+    //     const result = await AuthApis.getAccessToken();
+    //     console.log(result);
+    // };
     return (
         <div className={styles.container}>
             <Head>
@@ -30,7 +35,7 @@ const Home: NextPage = () => {
                 <meta name="description" content="Make your suitable food" />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-
+            {/* <button onClick={() => onCheck()}>Click</button> */}
             {token ? <div>Hello world</div> : <div>Let{"'"}s the game begin</div>}
         </div>
     );
