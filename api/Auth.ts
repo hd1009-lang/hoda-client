@@ -1,4 +1,4 @@
-import { AuthAccessToken, AuthLogin, AuthModel } from './../Type/AuthType';
+import { Auth, AuthAccessToken, AuthLogin, AuthModel } from './../Type/AuthType';
 import { User } from '../Type/UserType';
 import axiosClient from './axiosClient';
 const AuthApis = {
@@ -13,7 +13,7 @@ const AuthApis = {
     getAccessToken: async (): Promise<AuthAccessToken> => {
         try {
             const url = '/api/users/refresh_token';
-            return await axiosClient.post(url, {});
+            return await axiosClient.get(url);
         } catch (error) {
             throw error;
         }
@@ -22,6 +22,14 @@ const AuthApis = {
         try {
             const url = '/api/users/logout';
             return url;
+        } catch (error) {
+            throw error;
+        }
+    },
+    register: async (data: AuthModel): Promise<Auth> => {
+        try {
+            const url = '/api/users/register';
+            return await axiosClient.post(url, data);
         } catch (error) {
             throw error;
         }

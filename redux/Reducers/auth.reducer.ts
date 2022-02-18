@@ -2,13 +2,22 @@ import { AuthCommand } from '../Command/Auth.command';
 import { ActionDispatch } from './../../Type/Redux';
 
 export interface LoginStateModel {
-    user: {};
+    user: {
+        username: string;
+        name: string;
+        post: object[];
+        bmiId?: object;
+    };
     login: boolean;
     token: string;
 }
 
 const initialState = {
-    user: {},
+    user: {
+        username: 'non',
+        name: 'non',
+        post: [],
+    },
     login: false,
     token: '',
 };

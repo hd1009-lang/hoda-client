@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { Box, Flex, FormControl, FormErrorMessage, FormLabel, Input, Button, Heading } from '@chakra-ui/react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
-import AuthApis from '../api/Auth';
 import { LoginAction } from '../redux/Actions/Auth.action';
 import { AuthModel } from '../Type/AuthType';
 import Router from 'next/router';
@@ -33,7 +32,7 @@ const LoginPage = () => {
             justifyContent={'center'}
             alignItems={['center', 'flex-start']}
         >
-            <Box width={['200px', '300px']} mt={[0, '10%']}>
+            <Box width={['250px', '300px']} mt={[0, '10%']}>
                 <Heading textAlign="center">Login</Heading>
                 <form onSubmit={handleSubmit(onLogin)}>
                     <FormControl isInvalid={Boolean(errors.username)}>

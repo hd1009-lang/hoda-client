@@ -16,12 +16,10 @@ interface LayoutProps {
 const Layout = ({ children }: LayoutProps) => {
     const dispatch = useDispatch();
     const { login, token } = useSelector((state: RootState) => state.auth);
-    const notification = useSelector((state: RootState) => state.notifications);
     const [loading, setLoading] = useState(false);
     useEffect(() => {
         const isLogin = localStorage.getItem('isLogin');
         if (isLogin) {
-            alert('ok');
             dispatch(GetAccessToken());
         }
     }, [dispatch]);
@@ -45,11 +43,11 @@ const Layout = ({ children }: LayoutProps) => {
         );
     }
     return (
-        <Box width="100%" height="100vh" overflow="hidden">
+        <Box width="100%" height="100vh" overflow="hidden" bg={'pink.100'} position="relative">
             <Navigation token={token} onLogout={onLogout} />
-            <Box width={'100%'} position="relative">
+            <Box width={'100%'} position="relative" bg="red.100">
                 {children}
-                <Toast notifications={notification} />
+                <Toast />
             </Box>
         </Box>
     );

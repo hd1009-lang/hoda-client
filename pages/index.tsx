@@ -1,13 +1,13 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import { useSelector } from 'react-redux';
-import styles from '../styles/Home.module.css';
 import { RootState } from '../redux/Reducers';
 import { useEffect, useState } from 'react';
-import { Box } from '@chakra-ui/react';
-import AuthApis from '../api/Auth';
+import { Box, Flex } from '@chakra-ui/react';
+import BoxBMI from '../components/Bmi/BoxBMI';
 const Home: NextPage = () => {
     const token = useSelector((state: RootState) => state.auth.token);
+    const user = useSelector((state: RootState) => state.auth.user);
     const [loading, setLoading] = useState(false);
     useEffect(() => {
         setLoading(true);
@@ -24,20 +24,19 @@ const Home: NextPage = () => {
             </Box>
         );
     }
-    // const onCheck = async () => {
-    //     const result = await AuthApis.getAccessToken();
-    //     console.log(result);
-    // };
+
     return (
-        <div className={styles.container}>
+        <Flex direction={'column'} width="100%" height={'100vh'} bg="purple.100">
             <Head>
                 <title>HodaTheFood</title>
                 <meta name="description" content="Make your suitable food" />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-            {/* <button onClick={() => onCheck()}>Click</button> */}
-            {token ? <div>Hello world</div> : <div>Let{"'"}s the game begin</div>}
-        </div>
+            {token && !user.bmiId && <BoxBMI />}
+            <Box width={200} height="200px" mt={20}>
+                Welcome to Vietnam
+            </Box>
+        </Flex>
     );
 };
 
