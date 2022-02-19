@@ -5,6 +5,8 @@ import AuthApis from '../../api/Auth';
 import { AuthCommand } from '../Command/Auth.command';
 import { NotificationCommand } from '../Command/Notification.comamnd';
 import { v4 } from 'uuid';
+import UserApis from '../../api/User';
+import { UserCommand } from '../Command/User.command';
 
 export const LoginAction = (data: AuthModel) => async (dispatch: Dispatch<ActionDispatch>) => {
     try {
@@ -28,9 +30,10 @@ export const LoginAction = (data: AuthModel) => async (dispatch: Dispatch<Action
 export const GetAccessToken = () => async (dispatch: Dispatch<ActionDispatch>) => {
     try {
         const result = await AuthApis.getAccessToken();
-        console.log('redux token', result);
+        // const data = await UserApis.getInfoUser(result.token);
         if (result.token) {
             dispatch({ type: AuthCommand.SetToken, payload: result.token });
+            // dispatch({ type: UserCommand.GET_INFO, payload: data.data });
             const noti = {
                 id: v4(),
                 type: 'success',
@@ -59,6 +62,23 @@ export const Register = (data: AuthModel) => async (dispatch: Dispatch<ActionDis
                 message: 'Đăng ký thành công, về trang đăng nhập để đăng nhập',
             };
             dispatch({ type: NotificationCommand.ADD, payload: noti });
+        }
+    } catch (error) {
+        const errNoti = {
+            id: v4(),
+            type: 'error',
+            message: (error as Error).message,
+        };
+        dispatch({ type: NotificationCommand.ADD, payload: errNoti });
+    }
+};
+export const GetInfo = () => async (dispatch: Dispatch<ActionDispatch>) => {
+    try {
+        const result = await UserApis.getInfoUser();
+        console.log(result);
+
+        if (result.data.username) {
+            dispatch({ type: UserCommand.GET_INFO, payload: result.data });
         }
     } catch (error) {
         const errNoti = {

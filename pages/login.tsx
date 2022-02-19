@@ -6,7 +6,8 @@ import { LoginAction } from '../redux/Actions/Auth.action';
 import { AuthModel } from '../Type/AuthType';
 import Router from 'next/router';
 import { RootState } from '../redux/Reducers';
-const LoginPage = () => {
+import { NextPage } from 'next';
+const LoginPage:NextPage = () => {
     const dispatch = useDispatch();
     const token = useSelector((state: RootState) => state.auth.token);
     useEffect(() => {

@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from 'axios';
-
+import { store } from '../redux/store';
 const axiosClient = axios.create({
     baseURL: process.env.NEXTAUTH_URL as string,
     withCredentials: true,
@@ -9,9 +9,15 @@ const axiosClient = axios.create({
 });
 
 // Add a request interceptor
+
+
 axiosClient.interceptors.request.use(
     function (config) {
         // Do something before request is sent
+        const token = store.getState().auth.token || '';
+        config.headers={
+            Authorization:token
+        }
         return config;
     },
     function (error) {

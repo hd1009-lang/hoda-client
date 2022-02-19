@@ -1,8 +1,8 @@
 import { Auth, AuthAccessToken, AuthLogin, AuthModel } from './../Type/AuthType';
-import { User } from '../Type/UserType';
+import { UserModel } from '../Type/UserType';
 import axiosClient from './axiosClient';
 const AuthApis = {
-    login: async (data: AuthModel): Promise<AuthLogin<User>> => {
+    login: async (data: AuthModel): Promise<AuthLogin<UserModel>> => {
         try {
             const url = '/api/users/login';
             return await axiosClient.post(url, data);
@@ -34,5 +34,6 @@ const AuthApis = {
             throw error;
         }
     },
+   
 };
 export default AuthApis;

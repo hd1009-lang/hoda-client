@@ -10,6 +10,8 @@ import AuthApis from '../../api/Auth';
 import { AuthCommand } from '../../redux/Command/Auth.command';
 import Toast from '../Toast/Toast';
 import Navigation from '../Navigation/Navigation';
+import axios from 'axios';
+import axiosClient from '../../api/axiosClient';
 interface LayoutProps {
     children: React.ReactNode;
 }
@@ -30,6 +32,7 @@ const Layout = ({ children }: LayoutProps) => {
             setLoading(false);
         }
     }, [dispatch, login]);
+
     const onLogout = () => {
         AuthApis.logout();
         localStorage.setItem('isLogin', '');

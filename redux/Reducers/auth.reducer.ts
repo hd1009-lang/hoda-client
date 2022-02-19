@@ -1,4 +1,6 @@
+import { BmiModel } from '../../components/Bmi/data';
 import { AuthCommand } from '../Command/Auth.command';
+import { UserCommand } from '../Command/User.command';
 import { ActionDispatch } from './../../Type/Redux';
 
 export interface LoginStateModel {
@@ -6,7 +8,7 @@ export interface LoginStateModel {
         username: string;
         name: string;
         post: object[];
-        bmiId?: object;
+        bmiId: BmiModel;
     };
     login: boolean;
     token: string;
@@ -17,6 +19,7 @@ const initialState = {
         username: 'non',
         name: 'non',
         post: [],
+        bmiId: {},
     },
     login: false,
     token: '',
@@ -27,7 +30,6 @@ export const LoginReducer = (state: LoginStateModel = initialState, action: Acti
         case AuthCommand.Login:
             return {
                 ...state,
-                user: action.payload,
                 login: true,
             };
         case AuthCommand.SetToken:
@@ -37,6 +39,11 @@ export const LoginReducer = (state: LoginStateModel = initialState, action: Acti
             };
         case AuthCommand.Logout:
             return initialState;
+        case UserCommand.GET_INFO:
+            return {
+                ...state,
+                user: action.payload,
+            };
         default:
             return state;
     }

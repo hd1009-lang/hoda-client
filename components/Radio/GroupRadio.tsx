@@ -1,7 +1,7 @@
 import { Flex, FormControl, FormErrorMessage, FormLabel, HStack, useRadioGroup } from '@chakra-ui/react';
 import { Control, useController, useForm } from 'react-hook-form';
 import React from 'react';
-import data, { GroupRadioLayout } from './data';
+import { GroupRadioLayout } from './data';
 import RadioCard from './RadioCard';
 
 

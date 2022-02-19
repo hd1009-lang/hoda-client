@@ -1,4 +1,5 @@
 import { Box, Flex, FormControl, FormErrorMessage, FormLabel, Input, Button, Heading } from '@chakra-ui/react';
+import { NextPage } from 'next';
 import React, { useRef } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
@@ -12,7 +13,7 @@ type FormValues = {
     re_password: string;
 };
 
-const RegisterPage = () => {
+const RegisterPage: NextPage = () => {
     const {
         handleSubmit,
         register,
@@ -42,7 +43,7 @@ const RegisterPage = () => {
                 <Heading>Register</Heading>
                 <form onSubmit={handleSubmit(onRegister)}>
                     <FormControl isInvalid={Boolean(errors.username)}>
-                        <FormLabel htmlFor="name">Tên tài khoản</FormLabel>
+                        <FormLabel htmlFor="name">Tên</FormLabel>
                         <Input
                             id="name"
                             placeholder="Có thể gọi bạn là"
