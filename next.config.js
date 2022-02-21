@@ -2,8 +2,8 @@
 const nextConfig = {
     reactStrictMode: true,
     env: {
-        // NEXTAUTH_URL: 'https://hodathefood.vercel.app',
-        NEXTAUTH_URL: 'http://localhost:8000',
+        NEXTAUTH_URL: 'https://hodathefood.vercel.app',
+        // NEXTAUTH_URL: 'http://localhost:8000',
     },
 };
 
