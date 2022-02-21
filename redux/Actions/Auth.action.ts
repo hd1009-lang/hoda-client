@@ -11,7 +11,6 @@ import { UserCommand } from '../Command/User.command';
 export const LoginAction = (data: AuthModel) => async (dispatch: Dispatch<ActionDispatch>) => {
     try {
         const result = await AuthApis.login(data);
-        console.log('redux login', result);
 
         if (result.data) {
             dispatch({ type: AuthCommand.Login, payload: result.data });
@@ -75,7 +74,6 @@ export const Register = (data: AuthModel) => async (dispatch: Dispatch<ActionDis
 export const GetInfo = () => async (dispatch: Dispatch<ActionDispatch>) => {
     try {
         const result = await UserApis.getInfoUser();
-        console.log(result);
 
         if (result.data.username) {
             dispatch({ type: UserCommand.GET_INFO, payload: result.data });

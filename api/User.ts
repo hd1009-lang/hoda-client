@@ -20,5 +20,6 @@ const UserApis = {
             throw error;
         }
     },
+    
 };
 export default UserApis;

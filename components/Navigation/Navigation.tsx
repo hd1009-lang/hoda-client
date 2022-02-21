@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Flex, Wrap, WrapItem } from '@chakra-ui/react';
+import { Box, Button, Flex, Wrap, WrapItem } from '@chakra-ui/react';
 
 import Image from 'next/image';
 import Link from 'next/link';
@@ -25,11 +25,18 @@ const Navigation = ({ token, onLogout }: NavigationModel) => {
             <Box>
                 <Wrap>
                     {token ? (
-                        <WrapItem>
-                            <span onClick={() => onLogout()}>
-                                <a>Đăng xuất</a>
-                            </span>
-                        </WrapItem>
+                        <>
+                            <WrapItem>
+                                <Link href={'/create-recipe'}>
+                                    <a>Tạo bài viết</a>
+                                </Link>
+                            </WrapItem>
+                            <WrapItem>
+                                <Button onClick={() => onLogout()}>
+                                    <a>Đăng xuất</a>
+                                </Button>
+                            </WrapItem>
+                        </>
                     ) : (
                         <>
                             {' '}

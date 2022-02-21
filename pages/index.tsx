@@ -6,11 +6,21 @@ import { useEffect, useState } from 'react';
 import { Box, Flex } from '@chakra-ui/react';
 import BoxBMI from '../components/Bmi/BoxBMI';
 import { GetInfo } from '../redux/Actions/Auth.action';
-const Home: NextPage = () => {
+import IngredientApis from '../api/Ingredient';
+import { IngredientModel } from '../Type/IngredientType';
+import { IngredientCommand } from '../redux/Command/Ingredient.command';
+import NavBar from '../components/NavBar/NavBar';
+interface HomeLayout {
+    ingredients: IngredientModel[];
+}
+const Home: NextPage<HomeLayout> = ({ ingredients }) => {
     const dispatch = useDispatch();
     const token = useSelector((state: RootState) => state.auth.token);
     const user = useSelector((state: RootState) => state.auth.user);
     const [loading, setLoading] = useState(false);
+    useEffect(() => {
+        dispatch({ type: IngredientCommand.GET_CATE, payload: ingredients });
+    }, []);
     useEffect(() => {
         setLoading(true);
         if (token) {
@@ -21,7 +31,6 @@ const Home: NextPage = () => {
         } else {
             setLoading((loading) => !loading);
         }
-        console.log(user.bmiId.bmi);
     }, [token]);
     if (loading) {
         return (
@@ -39,11 +48,15 @@ const Home: NextPage = () => {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             {token && user.bmiId.bmi! < 10 && <BoxBMI />}
-            <Box width={200} height="200px" mt={20}>
-                Welcome to Vietnam
+            <Box width={'300px'} height="100%" bg="pink.100" overflow={'scroll'}>
+                <NavBar ingredients={ingredients} />
             </Box>
         </Flex>
     );
 };
 
+export async function getStaticProps() {
+    const result = await IngredientApis.getCate();
+    return { props: { ingredients: result } };
+}
 export default Home;

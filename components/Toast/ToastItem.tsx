@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Box } from '@chakra-ui/react';
+import { Alert, AlertIcon } from '@chakra-ui/react';
 import { NotificationModel } from '../../redux/Reducers/Notiofication.reducer';
 import { useDispatch } from 'react-redux';
 import { NotificationCommand } from '../../redux/Command/Notification.comamnd';
@@ -16,9 +16,10 @@ const ToastItem = ({ toast }: ToastItemModel) => {
         return () => window.clearInterval(removeToast);
     }, [dispatch]);
     return (
-        <Box bg={`${toast.type === 'error' ? 'lightError' : 'lightSuccess'}`} padding={'5px 10px'}>
+        <Alert status={`${toast.type === 'error' ? 'error' : 'success'}`}>
+            <AlertIcon />
             {toast.message}
-        </Box>
+        </Alert>
     );
 };
 
