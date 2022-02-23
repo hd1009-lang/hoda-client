@@ -2,16 +2,22 @@ import { Box, Flex, Tag, TagLabel, TagLeftIcon, Text, Button } from '@chakra-ui/
 import React, { memo, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { GetIngredientWithCate } from '../../../redux/Actions/Ingredient.action';
-import { IngredientModel } from '../../../Type/IngredientType';
+import { IngredientDetail, IngredientModel } from '../../../Type/IngredientType';
 import { AiOutlinePlusCircle } from 'react-icons/ai';
+import { IngredientPost } from '../../../pages/create-recipe';
 interface NavBarItemLayout {
     data: IngredientModel;
+    addItem: (data: IngredientPost) => void;
 }
 
-const NavBarItem = ({ data }: NavBarItemLayout) => {
+const NavBarItem = ({ data, addItem }: NavBarItemLayout) => {
     const [show, setShow] = useState(false);
     const [loading, setLoading] = useState(false);
     const dispatch = useDispatch();
+    const onAdd = (info: IngredientDetail) => {
+        const infoSend = { ...info, nameCate: data.name as string, quantity: 1 };
+        addItem(infoSend);
+    };
     const getItems = (idCate: string) => {
         setShow(!show);
         if (data.item) {
@@ -42,6 +48,7 @@ const NavBarItem = ({ data }: NavBarItemLayout) => {
                             variant="subtle"
                             colorScheme="orange"
                             margin={'5px'}
+                            onClick={() => onAdd(item)}
                         >
                             <TagLeftIcon boxSize="12px" as={AiOutlinePlusCircle} />
                             <TagLabel>{item.name}</TagLabel>
