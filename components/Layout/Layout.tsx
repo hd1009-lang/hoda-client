@@ -7,6 +7,8 @@ import AuthApis from '../../api/Auth';
 import { AuthCommand } from '../../redux/Command/Auth.command';
 import Toast from '../Toast/Toast';
 import Navigation from '../Navigation/Navigation';
+import IngredientApis from '../../api/Ingredient';
+import { IngredientCommand } from '../../redux/Command/Ingredient.command';
 
 interface LayoutProps {
     children: React.ReactNode;
@@ -14,7 +16,20 @@ interface LayoutProps {
 const Layout = ({ children }: LayoutProps) => {
     const dispatch = useDispatch();
     const { login, token } = useSelector((state: RootState) => state.auth);
+    const ingredients = useSelector((state: RootState) => state.ingredients);
     const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        setLoading(true);
+        if (!ingredients[0]._id) {
+            const getIngredient = async () => {
+                const result = await IngredientApis.getCate();
+                dispatch({ type: IngredientCommand.GET_CATE, payload: result });
+                setLoading(false);
+            };
+            getIngredient();
+        }
+    }, []);
 
     useEffect(() => {
         const isLogin = localStorage.getItem('isLogin');

@@ -13,14 +13,12 @@ import NavBar from '../components/NavBar/NavBar';
 interface HomeLayout {
     ingredients: IngredientModel[];
 }
-const Home: NextPage<HomeLayout> = ({ ingredients }) => {
+const Home: NextPage<HomeLayout> = ({}) => {
     const dispatch = useDispatch();
     const token = useSelector((state: RootState) => state.auth.token);
     const user = useSelector((state: RootState) => state.auth.user);
+    const ingredients = useSelector((state: RootState) => state.ingredients);
     const [loading, setLoading] = useState(false);
-    useEffect(() => {
-        dispatch({ type: IngredientCommand.GET_CATE, payload: ingredients });
-    }, []);
     useEffect(() => {
         setLoading(true);
         if (token) {
@@ -55,8 +53,8 @@ const Home: NextPage<HomeLayout> = ({ ingredients }) => {
     );
 };
 
-export async function getStaticProps() {
-    const result = await IngredientApis.getCate();
-    return { props: { ingredients: result } };
-}
+// export async function getStaticProps() {
+//     const result = await IngredientApis.getCate();
+//     return { props: { ingredients: result } };
+// }
 export default Home;
