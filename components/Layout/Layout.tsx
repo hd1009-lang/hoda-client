@@ -20,8 +20,8 @@ const Layout = ({ children }: LayoutProps) => {
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        setLoading(true);
         if (!ingredients[0]._id) {
+            setLoading(true);
             const getIngredient = async () => {
                 const result = await IngredientApis.getCate();
                 dispatch({ type: IngredientCommand.GET_CATE, payload: result });
@@ -29,7 +29,7 @@ const Layout = ({ children }: LayoutProps) => {
             };
             getIngredient();
         }
-    }, []);
+    }, [dispatch, ingredients]);
 
     useEffect(() => {
         const isLogin = localStorage.getItem('isLogin');
