@@ -1,38 +1,48 @@
-import { Box } from '@chakra-ui/react';
-import React, { useEffect, useState } from 'react';
+import { Box, Flex } from '@chakra-ui/react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { IngredientPost } from '../../../pages/create-recipe';
+import { IngredientPost } from '../../../pages/recipe/create';
 import { RootState } from '../../../redux/Reducers';
 import { IngredientDetail } from '../../../Type/IngredientType';
-interface Ingredient extends IngredientDetail {
-    nameCate: string;
-    quantity: number;
-}
+import IngredientItem from './IngredientItem';
 
 interface BoxIngredientList {
     list: {
         [key: string]: IngredientPost[];
     };
+    onDecrease: (data: IngredientPost) => void;
+    addItem: (data: IngredientPost) => void;
 }
-const BoxIngredientList = ({ list }: BoxIngredientList) => {
-    console.log(list);
+const BoxIngredientList = ({ list, onDecrease,addItem }: BoxIngredientList) => {
+    const total = useMemo(() => {
+        let value = {
+            calo: 0,
+            fat: 0,
+            protein: 0,
+            carb: 0,
+        };
+        Object.values(list).map((items) => {
+            items.forEach((item) => {
+                value.calo += item.nutrition?.calo! * item.quantity;
+                value.fat += item.nutrition?.fat! * item.quantity;
+                value.protein += item.nutrition?.protein! * item.quantity;
+                value.carb += item.nutrition?.carb! * item.quantity;
+            });
+        });
+        return value;
+    }, [list]);
     return (
-        <Box width={'100%'} height="20%" bg={'pink.200'}>
+        <Box width={'20%'} height="100%" bg={'pink.200'}>
+            {Object.entries(total).map((item) => {
+                return (
+                    <div key={item[0]}>
+                        {item[0]}: {Math.floor(item[1])}
+                    </div>
+                );
+            })}
             {Object.entries(list).map((el) => {
                 if (el[1].length > 0) {
-                    return (
-                        <div key={el[0]}>
-                            {el[0]}
-                            {el[1].map((item) => {
-                                return (
-                                    <div key={item._id}>
-                                        {item.name}
-                                        {item.quantity}
-                                    </div>
-                                );
-                            })}
-                        </div>
-                    );
+                    return <IngredientItem key={el[0]} data={el} onDecrease={onDecrease} addItem={addItem} />;
                 }
             })}
         </Box>

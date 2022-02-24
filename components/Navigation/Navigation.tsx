@@ -27,7 +27,7 @@ const Navigation = ({ token, onLogout }: NavigationModel) => {
                     {token ? (
                         <>
                             <WrapItem>
-                                <Link href={'/create-recipe'}>
+                                <Link href={'/recipe/create'}>
                                     <a>Tạo bài viết</a>
                                 </Link>
                             </WrapItem>

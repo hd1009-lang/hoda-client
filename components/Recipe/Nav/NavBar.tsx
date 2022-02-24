@@ -1,7 +1,7 @@
 import { Flex } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { IngredientPost } from '../../../pages/create-recipe';
+import { IngredientPost } from '../../../pages/recipe/create';
 import { RootState } from '../../../redux/Reducers';
 import { IngredientModel } from '../../../Type/IngredientType';
 import NavBarItem from './NavBarItem';

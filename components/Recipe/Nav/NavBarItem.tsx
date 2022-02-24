@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { GetIngredientWithCate } from '../../../redux/Actions/Ingredient.action';
 import { IngredientDetail, IngredientModel } from '../../../Type/IngredientType';
 import { AiOutlinePlusCircle } from 'react-icons/ai';
-import { IngredientPost } from '../../../pages/create-recipe';
+import { IngredientPost } from '../../../pages/recipe/create';
 interface NavBarItemLayout {
     data: IngredientModel;
     addItem: (data: IngredientPost) => void;
