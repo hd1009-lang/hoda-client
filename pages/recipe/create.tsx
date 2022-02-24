@@ -25,7 +25,7 @@ const CreateRecipe: NextPage<CreateLayout> = ({}) => {
             setCateListIngredient(nameCate);
             return;
         }
-    }, []);
+    }, [cateListIngredient, dataIngredient]);
 
     const addItem = (data: IngredientPost) => {
         const newList = HandleIncreaseIngredient(cateListIngredient, data);

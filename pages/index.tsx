@@ -29,7 +29,7 @@ const Home: NextPage<HomeLayout> = ({}) => {
         } else {
             setLoading((loading) => !loading);
         }
-    }, [token]);
+    }, [dispatch, token, user.bmiId.bmi]);
     if (loading) {
         return (
             <Box width={'100%'} height={'100vh'} bg="tomato">

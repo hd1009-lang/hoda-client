@@ -1,15 +1,12 @@
 import { Box, Flex } from '@chakra-ui/react';
 import { NextPage } from 'next';
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import IngredientApis from '../../api/Ingredient';
+import {  useSelector } from 'react-redux';
 import IngredientList from '../../components/Recipe/Ingredient/IngredientList';
 import NavBar from '../../components/Recipe/Nav/NavBar';
-import { IngredientCommand } from '../../redux/Command/Ingredient.command';
 import { RootState } from '../../redux/Reducers';
 import { IngredientDetail, IngredientModel } from '../../Type/IngredientType';
 import data from './data';
-import { PostModel } from '../../Type/Post';
 import { HandleDecreaseIngredient, HandleIncreaseIngredient } from '../../components/Recipe/Handle/Handle';
 interface EditRecipeLayout {
     ingredients: IngredientModel[];
@@ -38,7 +35,7 @@ const EditRecipe: NextPage<EditRecipeLayout> = () => {
             }
             return;
         }
-    }, []);
+    }, [cateListIngredient, dataIngredient]);
 
     const addItem = (data: IngredientPost) => {
         const newList = HandleIncreaseIngredient(cateListIngredient, data);
