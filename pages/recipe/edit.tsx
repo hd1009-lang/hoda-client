@@ -6,7 +6,7 @@ import IngredientList from '../../components/Recipe/Ingredient/IngredientList';
 import NavBar from '../../components/Recipe/Nav/NavBar';
 import { RootState } from '../../redux/Reducers';
 import { IngredientDetail, IngredientModel } from '../../Type/IngredientType';
-import data from './data';
+import data from '../../components/Recipe/data';
 import { HandleDecreaseIngredient, HandleIncreaseIngredient } from '../../components/Recipe/Handle/Handle';
 interface EditRecipeLayout {
     ingredients: IngredientModel[];
