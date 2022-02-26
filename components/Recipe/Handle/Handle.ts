@@ -1,4 +1,4 @@
-import { IngredientPost } from '../../../pages/recipe/create';
+import { IngredientPost } from '../../../pages/dashboard/recipe/create';
 
 export const HandleIncreaseIngredient = (currentList: { [key: string]: IngredientPost[] }, data: IngredientPost) => {
     let isSame = false;

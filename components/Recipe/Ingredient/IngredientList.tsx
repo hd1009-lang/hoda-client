@@ -1,9 +1,7 @@
 import { Box, Flex } from '@chakra-ui/react';
 import React, { useEffect, useMemo, useState } from 'react';
-import { useSelector } from 'react-redux';
 import { IngredientPost } from '../../../pages/dashboard/recipe/create';
-import { RootState } from '../../../redux/Reducers';
-import { IngredientDetail } from '../../../Type/IngredientType';
+
 import IngredientItem from './IngredientItem';
 
 interface BoxIngredientList {
