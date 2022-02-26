@@ -9,7 +9,7 @@ import Toast from '../Toast/Toast';
 import Navigation from '../Navigation/Navigation';
 import IngredientApis from '../../api/Ingredient';
 import { IngredientCommand } from '../../redux/Command/Ingredient.command';
-
+import Cookie from 'js-cookie';
 interface LayoutProps {
     children: React.ReactNode;
 }
@@ -46,8 +46,8 @@ const Layout = ({ children }: LayoutProps) => {
     }, [dispatch, login]);
 
     const onLogout = () => {
+        Cookie.remove('refresh_token');
         AuthApis.logout();
-        localStorage.setItem('isLogin', '');
         dispatch({ type: AuthCommand.Logout });
     };
     if (loading) {

@@ -6,8 +6,8 @@ import { AuthCommand } from '../Command/Auth.command';
 import { NotificationCommand } from '../Command/Notification.comamnd';
 import { v4 } from 'uuid';
 import UserApis from '../../api/User';
+import Cookie from 'js-cookie';
 import { UserCommand } from '../Command/User.command';
-
 export const LoginAction = (data: AuthModel) => async (dispatch: Dispatch<ActionDispatch>) => {
     try {
         const result = await AuthApis.login(data);
@@ -15,6 +15,13 @@ export const LoginAction = (data: AuthModel) => async (dispatch: Dispatch<Action
         if (result.data) {
             dispatch({ type: AuthCommand.Login, payload: result.data });
             localStorage.setItem('isLogin', 'true');
+
+            Cookie.set('refresh_token', result.token!, {
+                sameSite: 'none',
+                secure: true,
+                path: 'api/users/refresh_token',
+                expires: 7,
+            });
         }
     } catch (error) {
         const errNoti = {

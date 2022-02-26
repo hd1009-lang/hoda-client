@@ -1,5 +1,6 @@
 export interface Auth {
     message: string;
+    token?: string;
 }
 
 export interface AuthLogin<T> extends Auth {

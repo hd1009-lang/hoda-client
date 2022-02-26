@@ -1,13 +1,12 @@
 import { Box, Flex } from '@chakra-ui/react';
 import React, { memo, useMemo } from 'react';
-import { IngredientPost } from '../../../pages/recipe/create';
+import { IngredientPost } from '../../../pages/dashboard/recipe/create';
 interface IngredientItemLayout {
     data: [string, IngredientPost[]];
     onDecrease: (data: IngredientPost) => void;
     addItem: (data: IngredientPost) => void;
 }
 const IngredientItem = ({ data, onDecrease, addItem }: IngredientItemLayout) => {
-    console.log(data[0]);
     const calculateValue = (info: IngredientPost[]) => {
         let totalItem = 0;
         info.forEach((item) => {

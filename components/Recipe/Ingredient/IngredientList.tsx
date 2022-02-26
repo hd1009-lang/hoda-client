@@ -1,7 +1,7 @@
 import { Box, Flex } from '@chakra-ui/react';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { IngredientPost } from '../../../pages/recipe/create';
+import { IngredientPost } from '../../../pages/dashboard/recipe/create';
 import { RootState } from '../../../redux/Reducers';
 import { IngredientDetail } from '../../../Type/IngredientType';
 import IngredientItem from './IngredientItem';
@@ -13,24 +13,28 @@ interface BoxIngredientList {
     onDecrease: (data: IngredientPost) => void;
     addItem: (data: IngredientPost) => void;
 }
-const BoxIngredientList = ({ list, onDecrease,addItem }: BoxIngredientList) => {
+const BoxIngredientList = ({ list, onDecrease, addItem }: BoxIngredientList) => {
     const total = useMemo(() => {
-        let value = {
+        const value: { calo: number; fat: number; protein: number; carb: number } = {
             calo: 0,
             fat: 0,
             protein: 0,
             carb: 0,
         };
-        Object.values(list).map((items) => {
-            items.forEach((item) => {
-                value.calo += item.nutrition?.calo! * item.quantity;
-                value.fat += item.nutrition?.fat! * item.quantity;
-                value.protein += item.nutrition?.protein! * item.quantity;
-                value.carb += item.nutrition?.carb! * item.quantity;
+
+        if (Object.keys(list).length > 0) {
+            Object.values(list).forEach((items) => {
+                items.forEach((item) => {
+                    value.calo += item.nutrition?.calo! * item.quantity;
+                    value.fat += item.nutrition?.fat! * item.quantity;
+                    value.protein += item.nutrition?.protein! * item.quantity;
+                    value.carb += item.nutrition?.carb! * item.quantity;
+                });
             });
-        });
+            // setTotal(value);
+        }
         return value;
-    }, [list]);
+    }, [list, onDecrease]);
     return (
         <Box width={'20%'} height="100%" bg={'pink.200'}>
             {Object.entries(total).map((item) => {

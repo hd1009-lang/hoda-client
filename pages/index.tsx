@@ -10,6 +10,7 @@ import IngredientApis from '../api/Ingredient';
 import { IngredientModel } from '../Type/IngredientType';
 import { IngredientCommand } from '../redux/Command/Ingredient.command';
 import NavBar from '../components/NavBar/NavBar';
+import Link from 'next/link';
 interface HomeLayout {
     ingredients: IngredientModel[];
 }
@@ -45,6 +46,7 @@ const Home: NextPage<HomeLayout> = ({}) => {
                 <meta name="description" content="Make your suitable food" />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
+        
             {token && user.bmiId.bmi! < 10 && <BoxBMI />}
             <Box width={'300px'} height="100%" bg="pink.100" overflow={'scroll'}>
                 <NavBar ingredients={ingredients} />
