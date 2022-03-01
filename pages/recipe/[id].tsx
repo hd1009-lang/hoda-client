@@ -31,7 +31,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
             revalidate: 60*60*12
         };
     } catch (err: any) {
-        return { props: { errors: err.message } };
+        return { props: { err: err.message } };
     }
 };
 export default DetailRecipe;
