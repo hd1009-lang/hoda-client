@@ -3,12 +3,12 @@ import { NextPage, NextPageContext } from 'next';
 import React, { useEffect, useState } from 'react';
 import { useForm, SubmitHandler, Controller, useFieldArray } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
-import { HandleDecreaseIngredient, HandleIncreaseIngredient } from '../../../components/Recipe/Handle/Handle';
+import { calcTotalNutrition, HandleDecreaseIngredient, HandleIncreaseIngredient } from '../../../components/Recipe/Handle/Handle';
 import IngredientList from '../../../components/Recipe/Ingredient/IngredientList';
 import NavBar from '../../../components/Recipe/Nav/NavBar';
 import BoxStep from '../../../components/Recipe/Step/BoxStep';
 import { RootState } from '../../../redux/Reducers';
-import { IngredientDetail, IngredientModel } from '../../../Type/IngredientType';
+import { IngredientDetail, IngredientModel, NutritionModel } from '../../../Type/IngredientType';
 import { RecipeModel } from '../../../Type/Recipe';
 import { AiFillFileImage } from 'react-icons/ai';
 import RecipeApis from '../../../api/Recipe';
@@ -18,7 +18,7 @@ import Router from 'next/router';
 interface CreateLayout {
     ingredients: IngredientModel[];
 }
-
+//Need Optimize
 export interface IngredientPost extends IngredientDetail {
     nameCate: string;
     quantity: number;
@@ -28,21 +28,26 @@ const CreateRecipe: NextPage<CreateLayout> = ({}) => {
     const dataIngredient = useSelector((state: RootState) => state.ingredients);
     const [cateListIngredient, setCateListIngredient] = useState<{ [key: string]: IngredientPost[] }>({});
     const [loading, setLoading] = useState(false);
+    const [totalRecipe, setTotalRecipe] = useState<NutritionModel>({ calo: 0, protein: 0, carb: 0, fat: 0 });
     useEffect(() => {
-        if (Object.keys(cateListIngredient).length === 0) {
+        if (Object.keys(cateListIngredient).length < 1) {
             let nameCate = dataIngredient.map((el) => el.name).reduce((a, v) => ({ ...a, [v as string]: [] }), {});
             setCateListIngredient(nameCate);
-            return;
         }
     }, [cateListIngredient, dataIngredient]);
     const addItem = (data: IngredientPost) => {
         const newList = HandleIncreaseIngredient(cateListIngredient, data);
         setCateListIngredient(newList!);
+        const newTotal =calcTotalNutrition(newList!);
+        setTotalRecipe(newTotal)
     };
     const onDecrease = (data: IngredientPost) => {
         const newList = HandleDecreaseIngredient(cateListIngredient, data);
         setCateListIngredient(newList!);
+        const newTotal =calcTotalNutrition(newList!);
+        setTotalRecipe(newTotal)
     };
+
     const onCreate: SubmitHandler<RecipeModel> = async (data) => {
         setLoading(true);
         let newList: { idIngredient: string; quantity: number }[] = [];
@@ -59,6 +64,7 @@ const CreateRecipe: NextPage<CreateLayout> = ({}) => {
         newPost.data = data.data;
         newPost.title = data.title;
         newPost.ingredients = newList;
+        newPost.totalRecipe = totalRecipe;
         const result = await RecipeApis.create(newPost);
         if (result.data) {
             Router.push(`/dashboard/recipe/edit/${result.data}`);
@@ -73,7 +79,13 @@ const CreateRecipe: NextPage<CreateLayout> = ({}) => {
             </Box>
             <Flex width={'100%'} height="100%" bg="red.500">
                 {loading && <div>Loading........</div>}
-                <IngredientList list={cateListIngredient} onDecrease={onDecrease} addItem={addItem} />
+                {console.log({ cateListIngredient })}
+                <IngredientList
+                    list={cateListIngredient}
+                    onDecrease={onDecrease}
+                    addItem={addItem}
+                    totalRecipe={totalRecipe}
+                />
                 <BoxStep onCreate={onCreate} />
             </Flex>
         </Flex>

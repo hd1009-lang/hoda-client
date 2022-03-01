@@ -49,7 +49,15 @@ const BoxStep = ({ onCreate, data }: BoxStepLayout) => {
                 </FormControl>
                 <FormControl isInvalid={Boolean(errors.img)}>
                     <FormLabel htmlFor="img">Hình nền</FormLabel>
-                    <Image src={getValues('img') as string} width={'30px'} height={'30px'} alt={getValues('title')} />
+                    {getValues('img') && (
+                        <Image
+                            src={getValues('img') as string}
+                            width={'30px'}
+                            height={'30px'}
+                            alt={getValues('title')}
+                        />
+                    )}
+
                     <FormLabel htmlFor="img" cursor={'pointer'}>
                         Click
                     </FormLabel>

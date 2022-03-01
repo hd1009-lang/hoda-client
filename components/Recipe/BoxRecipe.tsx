@@ -16,7 +16,7 @@ const BoxRecipe = ({ data }: BoxRecipeLayout) => {
             width={'300px'}
             height="200px"
             bg={'white'}
-            border="1px solid black"
+            border="3px solid black"
             borderRadius={'10px'}
             flexShrink="0"
         >
@@ -36,7 +36,7 @@ const BoxRecipe = ({ data }: BoxRecipeLayout) => {
                 {Object.entries(data.totalRecipe!).map((item) => {
                     return (
                         <Box key={item[0]} width="50%" paddingLeft={'50px'}>
-                            {item[0]}:{item[1]}
+                            {item[0]}:~{Math.floor(item[1])}
                         </Box>
                     );
                 })}

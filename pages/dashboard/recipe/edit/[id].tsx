@@ -5,8 +5,12 @@ import { useSelector } from 'react-redux';
 import IngredientList from '../../../../components/Recipe/Ingredient/IngredientList';
 import NavBar from '../../../../components/Recipe/Nav/NavBar';
 import { RootState } from '../../../../redux/Reducers';
-import { IngredientDetail, IngredientModel } from '../../../../Type/IngredientType';
-import { HandleDecreaseIngredient, HandleIncreaseIngredient } from '../../../../components/Recipe/Handle/Handle';
+import { IngredientDetail, IngredientModel, NutritionModel } from '../../../../Type/IngredientType';
+import {
+    calcTotalNutrition,
+    HandleDecreaseIngredient,
+    HandleIncreaseIngredient,
+} from '../../../../components/Recipe/Handle/Handle';
 import BoxStep from '../../../../components/Recipe/Step/BoxStep';
 import { RecipeModel, ResponseRecipeAfter } from '../../../../Type/Recipe';
 import { SubmitHandler } from 'react-hook-form';
@@ -27,6 +31,7 @@ const EditRecipe: NextPage<EditRecipeLayout> = () => {
     const { id } = router.query;
     const [cateListIngredient, setCateListIngredient] = useState<{ [key: string]: IngredientPost[] }>({});
     const [data, setData] = useState<ResponseRecipeAfter>();
+    const [totalRecipe, setTotalRecipe] = useState<NutritionModel>({ calo: 0, protein: 0, carb: 0, fat: 0 });
 
     useEffect(() => {
         const getInfo = async () => {
@@ -39,6 +44,8 @@ const EditRecipe: NextPage<EditRecipeLayout> = () => {
                 let nameCate: { [key: string]: IngredientPost[] } = dataIngredient
                     .map((el) => el.name)
                     .reduce((a, v) => ({ ...a, [v as string]: [] }), {});
+                console.log({ nameCate });
+
                 setCateListIngredient(nameCate);
                 if (Object.keys(nameCate).length > 1) {
                     result.data.ingredients!.forEach((item) => {
@@ -46,6 +53,9 @@ const EditRecipe: NextPage<EditRecipeLayout> = () => {
                     });
                 }
                 setData(result.data);
+                console.log(result.data);
+
+                setTotalRecipe(result.data.totalRecipe!);
             }
         };
 
@@ -55,10 +65,14 @@ const EditRecipe: NextPage<EditRecipeLayout> = () => {
     const addItem = (data: IngredientPost) => {
         const newList = HandleIncreaseIngredient(cateListIngredient, data);
         setCateListIngredient(newList!);
+        const newTotal = calcTotalNutrition(newList!);
+        setTotalRecipe(newTotal);
     };
     const onDecrease = (data: IngredientPost) => {
         const newList = HandleDecreaseIngredient(cateListIngredient, data);
         setCateListIngredient(newList!);
+        const newTotal = calcTotalNutrition(newList!);
+        setTotalRecipe(newTotal);
     };
     const onCreate: SubmitHandler<RecipeModel> = async (data) => {
         // let newList: { idIngredient: string; quantity: number }[] = [];
@@ -87,7 +101,12 @@ const EditRecipe: NextPage<EditRecipeLayout> = () => {
                 <NavBar ingredients={dataIngredient} addItem={addItem} />
             </Box>
             <Flex width={'100%'} height="100%" bg="red.500">
-                <IngredientList list={cateListIngredient} onDecrease={onDecrease} addItem={addItem} />
+                <IngredientList
+                    list={cateListIngredient}
+                    onDecrease={onDecrease}
+                    addItem={addItem}
+                    totalRecipe={totalRecipe}
+                />
                 {data?.title && <BoxStep onCreate={onCreate} data={data} />}
             </Flex>
         </Flex>

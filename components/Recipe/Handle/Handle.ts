@@ -30,3 +30,25 @@ export const HandleDecreaseIngredient = (currentList: { [key: string]: Ingredien
     });
     return newList;
 };
+
+export const calcTotalNutrition = (list: { [key: string]: IngredientPost[] }) => {
+    const value: { calo: number; fat: number; protein: number; carb: number } = {
+        calo: 0,
+        fat: 0,
+        protein: 0,
+        carb: 0,
+    };
+
+    if (Object.keys(list).length > 0) {
+        Object.values(list).forEach((items) => {
+            items.forEach((item) => {
+                value.calo += item.nutrition?.calo! * item.quantity;
+                value.fat += item.nutrition?.fat! * item.quantity;
+                value.protein += item.nutrition?.protein! * item.quantity;
+                value.carb += item.nutrition?.carb! * item.quantity;
+            });
+        });
+        // setTotal(value);
+    }
+    return value;
+};

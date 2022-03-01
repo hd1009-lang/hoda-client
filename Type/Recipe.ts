@@ -40,6 +40,7 @@ export interface ResponseRecipeAfter {
     img?: string;
     ingredients?: ResponseRecipeIngredientHandled[];
     data?: StepModel[];
+    totalRecipe?: NutritionModel;
 }
 
 //List Recipe được trả về

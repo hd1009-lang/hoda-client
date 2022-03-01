@@ -35,14 +35,14 @@ const Home: NextPage<HomeLayout> = ({ ListRecipe }) => {
     }, [dispatch, token, user.bmiId.bmi]);
     if (loading) {
         return (
-            <Box width={'100%'} height={'100vh'} bg="tomato">
+            <Box width={'100%'} height={'100vh'}>
                 Loading
             </Box>
         );
     }
 
     return (
-        <Flex direction={'column'} width="100%" height={'100vh'} bg="purple.100">
+        <Flex direction={'column'} width="100%" height={'100vh'}>
             <Head>
                 <title>HodaTheFood</title>
                 <meta name="description" content="Make your suitable food" />
@@ -63,7 +63,6 @@ const Home: NextPage<HomeLayout> = ({ ListRecipe }) => {
                         alignItems={['center', 'center', 'flex-start']}
                         gap="5px"
                         overflow={'scroll'}
-                        bg="red.100"
                         padding={'10px'}
                     >
                         {ListRecipe.map((recipe) => {
@@ -80,6 +79,6 @@ const Home: NextPage<HomeLayout> = ({ ListRecipe }) => {
 
 export async function getStaticProps() {
     const result = await RecipeApis.getAllRecipe(0);
-    return { props: { ListRecipe: result.data },revalidate: 60*60*12 };
+    return { props: { ListRecipe: result.data }, revalidate: 60 * 60 * 12 };
 }
 export default Home;

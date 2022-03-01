@@ -16,7 +16,5 @@ a {
 }
 ::-webkit-scrollbar {
     display: none;
-}
-::-webkit-scrollbar {
-    display: block;
+    width: 0;
 }
