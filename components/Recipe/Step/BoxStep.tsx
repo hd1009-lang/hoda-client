@@ -1,6 +1,7 @@
 import { Button, Flex, FormControl, FormErrorMessage, FormLabel, Input } from '@chakra-ui/react';
-import React, { useState,memo } from 'react';
+import React, { useState, memo } from 'react';
 import { SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
+import Image from 'next/image';
 import { AiFillFileImage } from 'react-icons/ai';
 import ServiceApis from '../../../api/Service';
 import { RecipeModel, ResponseRecipeAfter } from '../../../Type/Recipe';
@@ -48,7 +49,7 @@ const BoxStep = ({ onCreate, data }: BoxStepLayout) => {
                 </FormControl>
                 <FormControl isInvalid={Boolean(errors.img)}>
                     <FormLabel htmlFor="img">Hình nền</FormLabel>
-                    <img src={getValues('img')} alt="" style={{ width: '30px', height: '30px' }} />
+                    <Image src={getValues('img') as string} width={'30px'} height={'30px'} alt={getValues('title')} />
                     <FormLabel htmlFor="img" cursor={'pointer'}>
                         Click
                     </FormLabel>

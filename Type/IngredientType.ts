@@ -8,13 +8,15 @@ export interface IngredientDetail {
     _id?: string;
     name?: string;
     idCate?: string;
-    nutrition?: {
-        calo: number;
-        protein: number;
-        fat: number;
-        carb: number;
-    };
+    nutrition?: NutritionModel;
 }
 export interface ResponseApis<T> {
     data: T[];
+}
+
+export interface NutritionModel {
+    calo: number;
+    protein: number;
+    fat: number;
+    carb: number;
 }

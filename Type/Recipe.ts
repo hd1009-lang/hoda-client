@@ -1,3 +1,4 @@
+import { NutritionModel } from './IngredientType';
 export interface RecipeModel {
     _id?: string;
     title?: string;
@@ -8,6 +9,7 @@ export interface RecipeModel {
         quantity: number;
     }[];
     data?: StepModel[];
+    totalRecipe?: NutritionModel;
 }
 
 export interface StepModel {
@@ -15,6 +17,7 @@ export interface StepModel {
     img?: string[];
 }
 
+// Chi tiết ingredient sau khi được server xử lý
 export interface ResponseRecipeIngredientHandled {
     idCate: string;
     name: string;
@@ -28,6 +31,7 @@ export interface ResponseRecipeIngredientHandled {
     quantity: number;
     _id: string;
 }
+//Recipe từ server trả về
 export interface ResponseRecipeAfter {
     _id?: string;
     title?: string;
@@ -37,3 +41,6 @@ export interface ResponseRecipeAfter {
     ingredients?: ResponseRecipeIngredientHandled[];
     data?: StepModel[];
 }
+
+//List Recipe được trả về
+export interface ResponseListRecipe extends RecipeModel {}

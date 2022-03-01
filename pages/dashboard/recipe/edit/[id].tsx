@@ -30,27 +30,27 @@ const EditRecipe: NextPage<EditRecipeLayout> = () => {
 
     useEffect(() => {
         const getInfo = async () => {
+            console.log(data);
+
             if (!id) return;
-            const result = await RecipeApis.getDetailRecipe(id as string);
-            if (result.data) {
-                if (Object.keys(cateListIngredient).length === 0) {
-                    let nameCate: { [key: string]: IngredientPost[] } = dataIngredient
-                        .map((el) => el.name)
-                        .reduce((a, v) => ({ ...a, [v as string]: [] }), {});
-                    setCateListIngredient(nameCate);
-                    if (Object.keys(nameCate).length > 1) {
-                        result.data.ingredients!.forEach((item) => {
-                            nameCate[item.nameCate].push(item);
-                        });
-                    }
-                    return;
+            if (Object.keys(cateListIngredient).length === 0) {
+                if (data) return;
+                const result = await RecipeApis.getDetailRecipe(id as string);
+                let nameCate: { [key: string]: IngredientPost[] } = dataIngredient
+                    .map((el) => el.name)
+                    .reduce((a, v) => ({ ...a, [v as string]: [] }), {});
+                setCateListIngredient(nameCate);
+                if (Object.keys(nameCate).length > 1) {
+                    result.data.ingredients!.forEach((item) => {
+                        nameCate[item.nameCate].push(item);
+                    });
                 }
                 setData(result.data);
             }
         };
 
         getInfo();
-    }, [cateListIngredient, dataIngredient, id]);
+    }, [id, cateListIngredient]);
 
     const addItem = (data: IngredientPost) => {
         const newList = HandleIncreaseIngredient(cateListIngredient, data);

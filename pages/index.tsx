@@ -6,21 +6,23 @@ import { useEffect, useState } from 'react';
 import { Box, Flex } from '@chakra-ui/react';
 import BoxBMI from '../components/Bmi/BoxBMI';
 import { GetInfo } from '../redux/Actions/Auth.action';
-import IngredientApis from '../api/Ingredient';
-import { IngredientModel } from '../Type/IngredientType';
-import { IngredientCommand } from '../redux/Command/Ingredient.command';
 import NavBar from '../components/NavBar/NavBar';
+import { RecipeModel } from '../Type/Recipe';
+import RecipeApis from '../api/Recipe';
 import Link from 'next/link';
+import BoxRecipe from '../components/Recipe/BoxRecipe';
 interface HomeLayout {
-    ingredients: IngredientModel[];
+    ListRecipe: RecipeModel[];
 }
-const Home: NextPage<HomeLayout> = ({}) => {
+const Home: NextPage<HomeLayout> = ({ ListRecipe }) => {
     const dispatch = useDispatch();
     const token = useSelector((state: RootState) => state.auth.token);
     const user = useSelector((state: RootState) => state.auth.user);
     const ingredients = useSelector((state: RootState) => state.ingredients);
     const [loading, setLoading] = useState(false);
     useEffect(() => {
+        console.log({ ListRecipe });
+
         setLoading(true);
         if (token) {
             if (!user.bmiId.bmi) {
@@ -46,17 +48,38 @@ const Home: NextPage<HomeLayout> = ({}) => {
                 <meta name="description" content="Make your suitable food" />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-        
             {token && user.bmiId.bmi! < 10 && <BoxBMI />}
-            <Box width={'300px'} height="100%" bg="pink.100" overflow={'scroll'}>
-                <NavBar ingredients={ingredients} />
-            </Box>
+            <Flex width={'100%'} height="100vh">
+                {/* <Box width={'300px'} height="100%" bg="pink.100" overflow={'scroll'}>
+                    {ingredients.length > 1 ? <NavBar ingredients={ingredients} /> : <div>Loading....</div>}
+                </Box> */}
+
+                {ListRecipe ? (
+                    <Flex
+                        width={'100%'}
+                        height="95%"
+                        direction={['column', 'column', 'row']}
+                        justifyContent="flex-start"
+                        alignItems={['center', 'center', 'flex-start']}
+                        gap="5px"
+                        overflow={'scroll'}
+                        bg="red.100"
+                        padding={'10px'}
+                    >
+                        {ListRecipe.map((recipe) => {
+                            return <BoxRecipe key={recipe._id} data={recipe} />;
+                        })}
+                    </Flex>
+                ) : (
+                    <div>Loading....</div>
+                )}
+            </Flex>
         </Flex>
     );
 };
 
-// export async function getStaticProps() {
-//     const result = await IngredientApis.getCate();
-//     return { props: { ingredients: result } };
-// }
+export async function getStaticProps() {
+    const result = await RecipeApis.getAllRecipe(0);
+    return { props: { ListRecipe: result.data },revalidate: 60*60*12 };
+}
 export default Home;

@@ -21,7 +21,7 @@ const Layout = ({ children }: LayoutProps) => {
 
     useEffect(() => {
         if (!ingredients[0]._id) {
-            setLoading(true);
+            // setLoading(true);
             const getIngredient = async () => {
                 const result = await IngredientApis.getCate();
                 dispatch({ type: IngredientCommand.GET_CATE, payload: result });
@@ -39,9 +39,9 @@ const Layout = ({ children }: LayoutProps) => {
     }, [dispatch]);
     useEffect(() => {
         if (login) {
-            setLoading(true);
+            // setLoading(true);
             dispatch(GetAccessToken());
-            setLoading(false);
+            // setLoading(false);
         }
     }, [dispatch, login]);
 
@@ -50,17 +50,11 @@ const Layout = ({ children }: LayoutProps) => {
         AuthApis.logout();
         dispatch({ type: AuthCommand.Logout });
     };
-    if (loading) {
-        return (
-            <Box width={'500px'} height={'500px'}>
-                Loading.....
-            </Box>
-        );
-    }
     return (
         <Box width="100%" height="100vh" overflow="hidden" bg={'pink.100'} position="relative">
             <Navigation token={token} onLogout={onLogout} />
             <Box width={'100%'} position="relative" bg="red.100">
+                {/* {loading && <div>Loading....</div>} */}
                 {children}
                 <Toast />
             </Box>
