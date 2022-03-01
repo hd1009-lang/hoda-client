@@ -6,8 +6,6 @@ interface DetailRecipeLayout {
     data: ResponseRecipeAfter;
 }
 const DetailRecipe: NextPage<DetailRecipeLayout> = ({ data }) => {
-    console.log(data);
-
     return <div>DetailRecipe</div>;
 };
 
@@ -21,17 +19,13 @@ export const getStaticPaths: GetStaticPaths = async () => {
     return { paths, fallback: false };
 };
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-    try {
-        const id = params?.id;
-        const result = await RecipeApis.getDetailRecipe(id as string);
-        return {
-            props: {
-                data: result,
-            },
-            revalidate: 60*60*12
-        };
-    } catch (err: any) {
-        return { props: { err: err.message } };
-    }
+    const id = params?.id;
+    const result = await RecipeApis.getDetailRecipe(id as string);
+    return {
+        props: {
+            data: result,
+        },
+        revalidate: 60 * 60 * 12,
+    };
 };
 export default DetailRecipe;
