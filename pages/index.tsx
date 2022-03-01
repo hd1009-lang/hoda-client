@@ -79,6 +79,6 @@ const Home: NextPage<HomeLayout> = ({ ListRecipe }) => {
 
 export async function getStaticProps() {
     const result = await RecipeApis.getAllRecipe(0);
-    return { props: { ListRecipe: result.data }, revalidate: 60 * 60 * 12 };
+    return { props: { ListRecipe: result.data }, revalidate: 10 };
 }
 export default Home;
