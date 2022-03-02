@@ -10,7 +10,6 @@ interface DetailRecipeLayout {
     data: ResponseRecipeAfter;
 }
 const DetailRecipe: NextPage<DetailRecipeLayout> = ({ data }) => {
-    console.log(data);
     const [cateListIngredient, setCateListIngredient] = useState<{ [key: string]: IngredientPost[] }>({});
     useEffect(() => {
         if (Object.keys(cateListIngredient).length === 0) {
@@ -41,7 +40,7 @@ const DetailRecipe: NextPage<DetailRecipeLayout> = ({ data }) => {
                 <title>{data.title}</title>
             </Head>
             <Box width={'100%'} height={'300px'} position="relative" flexShrink={0}>
-                <Image src={data.img as string} alt={data.title} width={'100%'} height={'100%'} layout="fill" />
+                <Image src={data.img as string} alt={data.title} layout="fill" />
             </Box>
             <Flex gap={'5px 0'} wrap="wrap" width={'100%'}>
                 {Object.entries(cateListIngredient).map((item) => {
@@ -115,7 +114,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
         props: {
             data: result.data,
         },
-        revalidate: 60 * 60 * 12,
+        revalidate: 5,
     };
 };
 export default DetailRecipe;

@@ -21,7 +21,6 @@ const Home: NextPage<HomeLayout> = ({ ListRecipe }) => {
     const ingredients = useSelector((state: RootState) => state.ingredients);
     const [loading, setLoading] = useState(false);
     useEffect(() => {
-        console.log({ ListRecipe });
 
         setLoading(true);
         if (token) {
@@ -79,6 +78,6 @@ const Home: NextPage<HomeLayout> = ({ ListRecipe }) => {
 
 export async function getStaticProps() {
     const result = await RecipeApis.getAllRecipe(0);
-    return { props: { ListRecipe: result.data }, revalidate: 60 * 60 * 12 };
+    return { props: { ListRecipe: result.data }, revalidate: 5 };
 }
 export default Home;

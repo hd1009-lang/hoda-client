@@ -11,7 +11,6 @@ import { UserCommand } from '../Command/User.command';
 export const LoginAction = (data: AuthModel) => async (dispatch: Dispatch<ActionDispatch>) => {
     try {
         const result = await AuthApis.login(data);
-
         if (result.data) {
             dispatch({ type: AuthCommand.Login, payload: result.data });
             localStorage.setItem('isLogin', 'true');
@@ -32,7 +31,6 @@ export const LoginAction = (data: AuthModel) => async (dispatch: Dispatch<Action
         dispatch({ type: NotificationCommand.ADD, payload: errNoti });
     }
 };
-
 export const GetAccessToken = () => async (dispatch: Dispatch<ActionDispatch>) => {
     try {
         const result = await AuthApis.getAccessToken();
