@@ -1,5 +1,5 @@
 import { Flex, Box, Text } from '@chakra-ui/react';
-import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
+import { GetServerSideProps, GetStaticPaths, GetStaticProps, NextPage } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
@@ -97,24 +97,32 @@ const DetailRecipe: NextPage<DetailRecipeLayout> = ({ data }) => {
         </Flex>
     );
 };
-
-export const getStaticPaths: GetStaticPaths = async () => {
-    const result = await RecipeApis.getAllRecipe(0);
-    const paths = result.data.map((item) => ({
-        params: {
-            id: item._id as string,
-        },
-    }));
-    return { paths, fallback: true };
-};
-export const getStaticProps: GetStaticProps = async ({ params }) => {
+export const getServerSideProps: GetServerSideProps = async ({ params }) => {
     const id = params?.id;
     const result = await RecipeApis.getDetailRecipe(id as string);
     return {
         props: {
             data: result.data,
         },
-        revalidate: 5,
     };
 };
+// export const getStaticPaths: GetStaticPaths = async () => {
+//     const result = await RecipeApis.getAllRecipe(0);
+//     const paths = result.data.map((item) => ({
+//         params: {
+//             id: item._id as string,
+//         },
+//     }));
+//     return { paths, fallback: false };
+// };
+// export const getStaticProps: GetStaticProps = async ({ params }) => {
+//     const id = params?.id;
+//     const result = await RecipeApis.getDetailRecipe(id as string);
+//     return {
+//         props: {
+//             data: result.data,
+//         },
+//         revalidate: 5,
+//     };
+// };
 export default DetailRecipe;
