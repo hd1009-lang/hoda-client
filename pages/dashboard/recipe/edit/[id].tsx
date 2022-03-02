@@ -35,7 +35,6 @@ const EditRecipe: NextPage<EditRecipeLayout> = () => {
 
     useEffect(() => {
         const getInfo = async () => {
-            console.log(data);
 
             if (!id) return;
             if (Object.keys(cateListIngredient).length === 0) {
@@ -44,7 +43,6 @@ const EditRecipe: NextPage<EditRecipeLayout> = () => {
                 let nameCate: { [key: string]: IngredientPost[] } = dataIngredient
                     .map((el) => el.name)
                     .reduce((a, v) => ({ ...a, [v as string]: [] }), {});
-                console.log({ nameCate });
 
                 setCateListIngredient(nameCate);
                 if (Object.keys(nameCate).length > 1) {
@@ -53,7 +51,6 @@ const EditRecipe: NextPage<EditRecipeLayout> = () => {
                     });
                 }
                 setData(result.data);
-                console.log(result.data);
 
                 setTotalRecipe(result.data.totalRecipe!);
             }
