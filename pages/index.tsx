@@ -21,7 +21,6 @@ const Home: NextPage<HomeLayout> = ({ ListRecipe }) => {
     const ingredients = useSelector((state: RootState) => state.ingredients);
     const [loading, setLoading] = useState(false);
     useEffect(() => {
-
         setLoading(true);
         if (token) {
             if (!user.bmiId.bmi) {
@@ -57,10 +56,11 @@ const Home: NextPage<HomeLayout> = ({ ListRecipe }) => {
                     <Flex
                         width={'100%'}
                         height="95%"
-                        direction={['column', 'column', 'row']}
+                        direction={['column', 'row', 'row']}
                         justifyContent="flex-start"
                         alignItems={['center', 'center', 'flex-start']}
-                        gap="5px"
+                        wrap={['nowrap', 'wrap', 'wrap']}
+                        alignContent="flex-start"
                         overflow={'scroll'}
                         padding={'10px'}
                     >

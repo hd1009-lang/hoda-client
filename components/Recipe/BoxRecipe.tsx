@@ -13,8 +13,9 @@ const BoxRecipe = ({ data }: BoxRecipeLayout) => {
             direction={'column'}
             alignItems="center"
             padding="5px"
-            width={'300px'}
-            height="200px"
+            margin={'5px'}
+            width={['300px', 'calc(50% - 10px)', 'calc(33.33% - 10px)', 'calc(25% - 10px)', 'calc(20% - 10px)']}
+            height="210px"
             bg={'white'}
             border="3px solid black"
             borderRadius={'10px'}
@@ -32,10 +33,17 @@ const BoxRecipe = ({ data }: BoxRecipeLayout) => {
                     {data.title}
                 </Link>
             </NextLink>
-            <Flex justifyContent={'center'} alignItems="center" width="100%" wrap={'wrap'} gap="5px 0">
+            <Flex
+                justifyContent={'center'}
+                alignItems="center"
+                width="100%"
+                wrap={'wrap'}
+                gap="5px 0"
+                textAlign={'center'}
+            >
                 {Object.entries(data.totalRecipe!).map((item) => {
                     return (
-                        <Box key={item[0]} width="50%" paddingLeft={'50px'}>
+                        <Box key={item[0]} width="50%">
                             {item[0]}:~{Math.floor(item[1])}
                         </Box>
                     );
