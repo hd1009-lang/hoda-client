@@ -3,7 +3,11 @@ import { NextPage, NextPageContext } from 'next';
 import React, { useEffect, useState } from 'react';
 import { useForm, SubmitHandler, Controller, useFieldArray } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
-import { calcTotalNutrition, HandleDecreaseIngredient, HandleIncreaseIngredient } from '../../../components/Recipe/Handle/Handle';
+import {
+    calcTotalNutrition,
+    HandleDecreaseIngredient,
+    HandleIncreaseIngredient,
+} from '../../../components/Recipe/Handle/Handle';
 import IngredientList from '../../../components/Recipe/Ingredient/IngredientList';
 import NavBar from '../../../components/Recipe/Nav/NavBar';
 import BoxStep from '../../../components/Recipe/Step/BoxStep';
@@ -15,6 +19,8 @@ import RecipeApis from '../../../api/Recipe';
 import cookies from 'next-cookies';
 import axios from 'axios';
 import Router from 'next/router';
+import { CreateRecipeAction } from '../../../redux/Actions/Recipe.action';
+import LayoutDashboard from '../../../components/Layout/LayoutDashboard';
 interface CreateLayout {
     ingredients: IngredientModel[];
 }
@@ -29,6 +35,7 @@ const CreateRecipe: NextPage<CreateLayout> = ({}) => {
     const [cateListIngredient, setCateListIngredient] = useState<{ [key: string]: IngredientPost[] }>({});
     const [loading, setLoading] = useState(false);
     const [totalRecipe, setTotalRecipe] = useState<NutritionModel>({ calo: 0, protein: 0, carb: 0, fat: 0 });
+    const dispatch = useDispatch();
     useEffect(() => {
         if (Object.keys(cateListIngredient).length < 1) {
             let nameCate = dataIngredient.map((el) => el.name).reduce((a, v) => ({ ...a, [v as string]: [] }), {});
@@ -38,14 +45,14 @@ const CreateRecipe: NextPage<CreateLayout> = ({}) => {
     const addItem = (data: IngredientPost) => {
         const newList = HandleIncreaseIngredient(cateListIngredient, data);
         setCateListIngredient(newList!);
-        const newTotal =calcTotalNutrition(newList!);
-        setTotalRecipe(newTotal)
+        const newTotal = calcTotalNutrition(newList!);
+        setTotalRecipe(newTotal);
     };
     const onDecrease = (data: IngredientPost) => {
         const newList = HandleDecreaseIngredient(cateListIngredient, data);
         setCateListIngredient(newList!);
-        const newTotal =calcTotalNutrition(newList!);
-        setTotalRecipe(newTotal)
+        const newTotal = calcTotalNutrition(newList!);
+        setTotalRecipe(newTotal);
     };
 
     const onCreate: SubmitHandler<RecipeModel> = async (data) => {
@@ -65,48 +72,36 @@ const CreateRecipe: NextPage<CreateLayout> = ({}) => {
         newPost.title = data.title;
         newPost.ingredients = newList;
         newPost.totalRecipe = totalRecipe;
-        const result = await RecipeApis.create(newPost);
-        if (result.data) {
-            Router.push(`/dashboard/recipe/edit/${result.data}`);
+        const result = await dispatch(CreateRecipeAction(newPost));
+        if (!result) {
+            setLoading(false);
+            return;
+        } else {
+            setLoading(false);
+            Router.push(`/dashboard/recipe/edit/${result}`);
         }
-        setLoading(false);
     };
 
     return (
-        <Flex width={'100%'} height="100vh">
-            <Box width={'500px'} height="100%" bg="pink.100" overflow={'scroll'}>
-                <NavBar ingredients={dataIngredient} addItem={addItem} />
-            </Box>
-            <Flex width={'100%'} height="100%" bg="red.500">
-                {loading && <div>Loading........</div>}
-                {console.log({ cateListIngredient })}
-                <IngredientList
-                    list={cateListIngredient}
-                    onDecrease={onDecrease}
-                    addItem={addItem}
-                    totalRecipe={totalRecipe}
-                />
-                <BoxStep onCreate={onCreate} />
+        <LayoutDashboard>
+            <Flex width={'100%'} height="100vh">
+                <Box width={'500px'} height="100%" bg="pink.100" overflow={'scroll'}>
+                    <NavBar ingredients={dataIngredient} addItem={addItem} />
+                </Box>
+                <Flex width={'100%'} height="100%" bg="red.500">
+                    {loading && <div>Loading........</div>}
+                    {console.log({ cateListIngredient })}
+                    <IngredientList
+                        list={cateListIngredient}
+                        onDecrease={onDecrease}
+                        addItem={addItem}
+                        totalRecipe={totalRecipe}
+                    />
+                    <BoxStep onSubmit={onCreate} />
+                </Flex>
             </Flex>
-        </Flex>
+        </LayoutDashboard>
     );
 };
-export async function getServerSideProps(ctx: NextPageContext) {
-    const { refresh_token } = cookies(ctx);
-    try {
-        const result = await axios.get(`${process.env.NEXTAUTH_URL}/api/users/refresh_token`, {
-            headers: {
-                Cookie: refresh_token as string,
-            },
-        });
 
-        return {
-            props: {},
-        };
-    } catch (error) {
-        return {
-            notFound: true,
-        };
-    }
-}
 export default CreateRecipe;

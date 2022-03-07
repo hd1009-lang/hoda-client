@@ -3,11 +3,12 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { IngredientPost } from '../../../pages/dashboard/recipe/create';
 import { RootState } from '../../../redux/Reducers';
-import { IngredientModel } from '../../../Type/IngredientType';
+import { IngredientModel, NutritionModel } from '../../../Type/IngredientType';
 import NavBarItem from './NavBarItem';
 interface NavbarLayout {
     ingredients: IngredientModel[];
     addItem: (data: IngredientPost) => void;
+
 }
 const NavBar = ({ ingredients, addItem }: NavbarLayout) => {
     const [data, setData] = useState<IngredientModel[]>(ingredients);

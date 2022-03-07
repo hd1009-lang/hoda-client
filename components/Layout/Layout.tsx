@@ -51,7 +51,7 @@ const Layout = ({ children }: LayoutProps) => {
         dispatch({ type: AuthCommand.Logout });
     };
     return (
-        <Box width="100%" height="100vh" overflow="hidden"  position="relative">
+        <Box width="100%" height="100vh" minWidth={'300px'} overflow="hidden" position="relative">
             <Navigation token={token} onLogout={onLogout} />
             <Box width={'100%'} position="relative">
                 {/* {loading && <div>Loading....</div>} */}

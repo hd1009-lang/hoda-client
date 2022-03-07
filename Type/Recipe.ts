@@ -34,13 +34,13 @@ export interface ResponseRecipeIngredientHandled {
 //Recipe từ server trả về
 export interface ResponseRecipeAfter {
     _id?: string;
-    title?: string;
+    title: string;
     idCate?: string;
-    idUser?: {};
-    img?: string;
-    ingredients?: ResponseRecipeIngredientHandled[];
-    data?: StepModel[];
-    totalRecipe?: NutritionModel;
+    idUser: {};
+    img: string;
+    ingredients: ResponseRecipeIngredientHandled[];
+    data: StepModel[];
+    totalRecipe: NutritionModel;
 }
 
 //List Recipe được trả về

@@ -7,10 +7,10 @@ import ServiceApis from '../../../api/Service';
 import { RecipeModel, ResponseRecipeAfter } from '../../../Type/Recipe';
 import ImgOfStep from './ImgOfStep';
 interface BoxStepLayout {
-    onCreate: (data: RecipeModel) => void;
+    onSubmit: (data: RecipeModel) => void;
     data?: ResponseRecipeAfter;
 }
-const BoxStep = ({ onCreate, data }: BoxStepLayout) => {
+const BoxStep = ({ onSubmit, data }: BoxStepLayout) => {
     const {
         register,
         control,
@@ -37,7 +37,7 @@ const BoxStep = ({ onCreate, data }: BoxStepLayout) => {
     };
     return (
         <Flex justifyContent={'center'} width={'100%'} height="100%" bg="white">
-            <form onSubmit={handleSubmit(onCreate)}>
+            <form onSubmit={handleSubmit(onSubmit)}>
                 <FormControl isInvalid={Boolean(errors.title)}>
                     <FormLabel htmlFor="name">Tiêu đề</FormLabel>
                     <Input

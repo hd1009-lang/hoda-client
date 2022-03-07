@@ -2,18 +2,41 @@ import { Flex, Box, Text } from '@chakra-ui/react';
 import { GetServerSideProps, GetStaticPaths, GetStaticProps, NextPage } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
+import Router, { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import RecipeApis from '../../api/Recipe';
 import { ResponseRecipeAfter } from '../../Type/Recipe';
 import { IngredientPost } from '../dashboard/recipe/create';
+interface ingredientModel {
+    [key: string]: IngredientPost[];
+}
 interface DetailRecipeLayout {
     data: ResponseRecipeAfter;
 }
 const DetailRecipe: NextPage<DetailRecipeLayout> = ({ data }) => {
+    const router = useRouter();
     const [cateListIngredient, setCateListIngredient] = useState<{ [key: string]: IngredientPost[] }>({});
+    // const [data, setData] = useState<ResponseRecipeAfter>();
     useEffect(() => {
+        // const { id } = router.query;
+        // const getData = async () => {
+        //     const result = await RecipeApis.getDetailRecipe(id as string);
+        //     if (result.data) {
+        //         if (Object.keys(cateListIngredient).length === 0) {
+        //             let nameCate: ingredientModel = data
+        //                 .ingredients!.map((el) => el.nameCate)
+        //                 .reduce((a, v) => ({ ...a, [v as string]: [] }), {});
+        //             setCateListIngredient(nameCate);
+        //             if (Object.keys(nameCate).length > 1) {
+        //                 data.ingredients!.forEach((item) => {
+        //                     nameCate[item.nameCate].push(item);
+        //                 });
+        //             }
+        //         }
+        //     }
+        // };
         if (Object.keys(cateListIngredient).length === 0) {
-            let nameCate: { [key: string]: IngredientPost[] } = data
+            let nameCate: ingredientModel = data
                 .ingredients!.map((el) => el.nameCate)
                 .reduce((a, v) => ({ ...a, [v as string]: [] }), {});
             setCateListIngredient(nameCate);
@@ -30,43 +53,52 @@ const DetailRecipe: NextPage<DetailRecipeLayout> = ({ data }) => {
             justifyContent="flex-start"
             direction={'column'}
             gap="5px"
-            width={'100%'}
+            width={['100%', '100%', '80%', '1000px']}
             height={'95vh'}
             overflowY="scroll"
             padding={'5px'}
+            margin="0 auto"
+            minWidth={'500px'}
         >
             <Head>
                 <link rel="icon" href={data.img} />
                 <title>{data.title}</title>
             </Head>
-            <Box width={'100%'} height={'300px'} position="relative" flexShrink={0}>
-                <Image src={data.img as string} alt={data.title} layout="fill" />
-            </Box>
-            <Flex gap={'5px 0'} wrap="wrap" width={'100%'}>
-                {Object.entries(cateListIngredient).map((item) => {
-                    return (
-                        <Box
-                            width={'calc(50% - 4px)'}
-                            margin="0 2px"
-                            key={item[0]}
-                            border="1px solid lightGray"
-                            padding={'5px'}
-                            borderRadius="5px"
-                        >
-                            <Text fontSize={'15px'} fontWeight="bold">
-                                {item[0]}
-                            </Text>
-                            {item[1].map((el) => {
-                                return (
-                                    <Flex justifyContent={'space-between'} fontSize={'12px'} key={el._id}>
-                                        <Text>{el.name}:</Text>
-                                        <Text>{el.quantity}x100g</Text>
-                                    </Flex>
-                                );
-                            })}
-                        </Box>
-                    );
-                })}
+            <Flex width={'100%'} direction={['column', 'row']} justifyContent="flex-start">
+                <Box
+                    width={['100%', '350px', '350px', '500px']}
+                    height={['350px', '350px', '350px', '500px']}
+                    position="relative"
+                    flexShrink={0}
+                >
+                    <Image src={data.img as string} alt={data.title} layout="fill" objectFit="cover" />
+                </Box>
+                <Flex gap={'5px 0'} wrap="wrap" width={'100%'} height="fit-content">
+                    {Object.entries(cateListIngredient).map((item) => {
+                        return (
+                            <Box
+                                width={'calc(50% - 4px)'}
+                                margin="0 2px"
+                                key={item[0]}
+                                border="1px solid lightGray"
+                                padding={'5px'}
+                                borderRadius="5px"
+                            >
+                                <Text fontSize={'15px'} fontWeight="bold">
+                                    {item[0]}
+                                </Text>
+                                {item[1].map((el) => {
+                                    return (
+                                        <Flex justifyContent={'space-between'} fontSize={'12px'} key={el._id}>
+                                            <Text>{el.name}:</Text>
+                                            <Text>{el.quantity}x100g</Text>
+                                        </Flex>
+                                    );
+                                })}
+                            </Box>
+                        );
+                    })}
+                </Flex>
             </Flex>
             <Flex direction={'column'} width="100%">
                 {data.data?.map((item, index) => {

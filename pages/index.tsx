@@ -62,7 +62,8 @@ const Home: NextPage<HomeLayout> = ({ ListRecipe }) => {
                         wrap={['nowrap', 'wrap', 'wrap']}
                         alignContent="flex-start"
                         overflow={'scroll'}
-                        padding={'10px'}
+                        padding={'10px 20px'}
+                        gap="10px 0"
                     >
                         {ListRecipe.map((recipe) => {
                             return <BoxRecipe key={recipe._id} data={recipe} />;
