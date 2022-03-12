@@ -8,14 +8,13 @@ import NavBarItem from './NavBarItem';
 interface NavbarLayout {
     ingredients: IngredientModel[];
     addItem: (data: IngredientPost) => void;
-
 }
 const NavBar = ({ ingredients, addItem }: NavbarLayout) => {
     const [data, setData] = useState<IngredientModel[]>(ingredients);
     const ingredientsGlobal = useSelector((state: RootState) => state.ingredients);
     useEffect(() => {
         setData(ingredientsGlobal);
-    }, [ingredientsGlobal]);
+    }, [ingredientsGlobal, data]);
     return (
         <Flex direction={'column'} gap="10px 0" padding={'5px 10px'}>
             {' '}

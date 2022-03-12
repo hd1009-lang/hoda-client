@@ -10,7 +10,7 @@ const IngredientItem = ({ data, onDecrease, addItem }: IngredientItemLayout) => 
     const calculateValue = (info: IngredientPost[]) => {
         let totalItem = 0;
         info.forEach((item) => {
-            totalItem += item.nutrition?.calo! * item.quantity;
+            totalItem += (item.nutrition?.calo! / 100) * item.quantity;
         });
         return Math.floor(totalItem);
     };
@@ -19,9 +19,9 @@ const IngredientItem = ({ data, onDecrease, addItem }: IngredientItemLayout) => 
     return (
         <Box width={'100%'} padding="5px" borderBottom={'1px solid black'} key={data[0]}>
             {data[0]}:{calculation}
-            {data[1].map((item) => {
+            {data[1].map((item,index) => {
                 return (
-                    <Flex key={item._id} justifyContent="space-between">
+                    <Flex key={index} justifyContent="space-between">
                         <span>{item.name}</span>
                         <span>{item.quantity}</span>
                         <button onClick={() => onDecrease(item)}>Decrease</button>

@@ -13,21 +13,27 @@ const BoxRecipe = ({ data }: BoxRecipeLayout) => {
         <Flex
             direction={'column'}
             alignItems="center"
-            margin={'5px'}
-            width={['100%', 'calc(50% - 10px)', 'calc(33.33% - 10px)', 'calc(25% - 10px)', 'calc(16.6667% - 10px)']}
-            maxWidth={['350px', '450px']}
-            height="400px"
+            margin={'10px'}
+            width={['100%', 'calc(50% - 20px)', 'calc(33.33% - 20px)', 'calc(25% - 20px)', 'calc(14.2% - 20px)']}
+            maxWidth={['250px', '300px']}
+            height="300px"
             bg={'white'}
-            border="1px solid lightGray"
-            borderRadius={'10px'}
+            border="1.5px solid lightGray"
             flexShrink="0"
             gap={'5px 0'}
             overflow="hidden"
+            padding={'10px'}
         >
-            <Flex direction={'column'} width={'100%'} height="60%" position="relative" flexShrink={0}>
+            <Flex direction={'column'} width={'85%'} height="60%" position="relative" flexShrink={0}>
                 <NextLink href={`/recipe/${data._id}`}>
                     <a style={{ width: '100%', height: '100%', position: 'relative' }}>
-                        <Image src={data.img as string} layout="fill" objectFit="cover" alt={data.title} />
+                        <Image
+                            src={data.img as string}
+                            layout="fill"
+                            objectFit="contain"
+                            alt={data.title}
+                            objectPosition={'center'}
+                        />
                     </a>
                 </NextLink>
             </Flex>
@@ -43,9 +49,9 @@ const BoxRecipe = ({ data }: BoxRecipeLayout) => {
                 padding="5px 15px"
             >
                 <List width={'50%'} flexShrink="0">
-                    {Object.entries(data.totalRecipe!).map((item) => {
+                    {Object.entries(data.totalRecipe!).map((item,index) => {
                         return (
-                            <ListItem key={item[0]} fontSize='12px'>
+                            <ListItem key={item[0]} fontSize="12px">
                                 <strong>{item[0]}</strong>: {Math.floor(item[1])}
                             </ListItem>
                         );

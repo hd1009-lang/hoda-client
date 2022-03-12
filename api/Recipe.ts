@@ -12,8 +12,6 @@ const RecipeApis = {
     },
     getDetailRecipe: async (id: string): Promise<ResponseCommon<ResponseRecipeAfter>> => {
         try {
-            console.log('get');
-
             const url = `/api/recipes/${id}`;
             return await axiosClient.get(url);
         } catch (error) {

@@ -9,7 +9,7 @@ export const HandleIncreaseIngredient = (currentList: { [key: string]: Ingredien
     newList[data.nameCate].map((item) => {
         if (item._id === data._id) {
             isSame = true;
-            item.quantity!++;
+            item.quantity+=data.quantity;
         }
     });
     if (!isSame) {
@@ -42,10 +42,10 @@ export const calcTotalNutrition = (list: { [key: string]: IngredientPost[] }) =>
     if (Object.keys(list).length > 0) {
         Object.values(list).forEach((items) => {
             items.forEach((item) => {
-                value.calo += item.nutrition?.calo! * item.quantity;
-                value.fat += item.nutrition?.fat! * item.quantity;
-                value.protein += item.nutrition?.protein! * item.quantity;
-                value.carb += item.nutrition?.carb! * item.quantity;
+                value.calo += item.nutrition?.calo! / 100 * item.quantity;
+                value.fat += item.nutrition?.fat! / 100 * item.quantity;
+                value.protein += item.nutrition?.protein! / 100 * item.quantity;
+                value.carb += item.nutrition?.carb! / 100 * item.quantity;
             });
         });
         // setTotal(value);

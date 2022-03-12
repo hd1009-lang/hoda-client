@@ -17,6 +17,9 @@ import { RecipeModel, ResponseRecipeAfter } from '../../../../Type/Recipe';
 import { SubmitHandler } from 'react-hook-form';
 import RecipeApis from '../../../../api/Recipe';
 import { UpdateRecipeAction } from '../../../../redux/Actions/Recipe.action';
+import LayoutDashboard from '../../../../components/Layout/LayoutDashboard';
+import Head from 'next/head';
+import FormRecipe from '../../../../components/Recipe/FormRecipe';
 interface EditRecipeLayout {
     ingredients: IngredientModel[];
 }
@@ -102,22 +105,47 @@ const EditRecipe: NextPage<EditRecipeLayout> = () => {
         }
     };
     return (
-        <Flex width={'100%'} height="100vh">
-            <Box width={'500px'} height="100%" bg="pink.100" overflow={'scroll'}>
-                <NavBar ingredients={dataIngredient} addItem={addItem} />
-            </Box>
-            <Flex width={'100%'} height="100%" bg="red.500">
-                {loading && <div>Loading........</div>}
-                <IngredientList
-                    list={cateListIngredient}
-                    onDecrease={onDecrease}
-                    addItem={addItem}
-                    totalRecipe={totalRecipe}
-                />
-                {data?.title && <BoxStep onSubmit={onEdit} data={data} />}
-            </Flex>
-        </Flex>
+        <LayoutDashboard>
+            <Head>
+                <title>{data?.title}</title>
+            </Head>
+            <FormRecipe
+                dataIngredient={dataIngredient}
+                addItem={addItem}
+                cateListIngredient={cateListIngredient}
+                onDecrease={onDecrease}
+                totalRecipe={totalRecipe}
+                onSubmit={onEdit}
+                data={data}
+            />
+        </LayoutDashboard>
+
     );
 };
 
 export default EditRecipe;
+
+
+
+
+
+
+
+
+
+
+        // <Flex width={'100%'} height="100vh">
+        //     <Box width={'500px'} height="100%" bg="pink.100" overflow={'scroll'}>
+        //         <NavBar ingredients={dataIngredient} addItem={addItem} />
+        //     </Box>
+        //     <Flex width={'100%'} height="100%" bg="red.500">
+        //         {loading && <div>Loading........</div>}
+        //         <IngredientList
+        //             list={cateListIngredient}
+        //             onDecrease={onDecrease}
+        //             addItem={addItem}
+        //             totalRecipe={totalRecipe}
+        //         />
+        //         {data?.title && <BoxStep onSubmit={onEdit} data={data} />}
+        //     </Flex>
+        // </Flex>

@@ -1,26 +1,20 @@
-import { Box, Button, Flex, FormControl, FormErrorMessage, FormLabel, Input } from '@chakra-ui/react';
-import { NextPage, NextPageContext } from 'next';
+import { NextPage } from 'next';
 import React, { useEffect, useState } from 'react';
-import { useForm, SubmitHandler, Controller, useFieldArray } from 'react-hook-form';
+import { SubmitHandler } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import {
     calcTotalNutrition,
     HandleDecreaseIngredient,
     HandleIncreaseIngredient,
 } from '../../../components/Recipe/Handle/Handle';
-import IngredientList from '../../../components/Recipe/Ingredient/IngredientList';
-import NavBar from '../../../components/Recipe/Nav/NavBar';
-import BoxStep from '../../../components/Recipe/Step/BoxStep';
 import { RootState } from '../../../redux/Reducers';
 import { IngredientDetail, IngredientModel, NutritionModel } from '../../../Type/IngredientType';
 import { RecipeModel } from '../../../Type/Recipe';
-import { AiFillFileImage } from 'react-icons/ai';
-import RecipeApis from '../../../api/Recipe';
-import cookies from 'next-cookies';
-import axios from 'axios';
 import Router from 'next/router';
 import { CreateRecipeAction } from '../../../redux/Actions/Recipe.action';
 import LayoutDashboard from '../../../components/Layout/LayoutDashboard';
+import Head from 'next/head';
+import FormRecipe from '../../../components/Recipe/FormRecipe';
 interface CreateLayout {
     ingredients: IngredientModel[];
 }
@@ -37,7 +31,7 @@ const CreateRecipe: NextPage<CreateLayout> = ({}) => {
     const [totalRecipe, setTotalRecipe] = useState<NutritionModel>({ calo: 0, protein: 0, carb: 0, fat: 0 });
     const dispatch = useDispatch();
     useEffect(() => {
-        if (Object.keys(cateListIngredient).length < 1) {
+        if (dataIngredient.length > 1 && Object.keys(cateListIngredient).length < 1) {
             let nameCate = dataIngredient.map((el) => el.name).reduce((a, v) => ({ ...a, [v as string]: [] }), {});
             setCateListIngredient(nameCate);
         }
@@ -81,27 +75,75 @@ const CreateRecipe: NextPage<CreateLayout> = ({}) => {
             Router.push(`/dashboard/recipe/edit/${result}`);
         }
     };
-
     return (
         <LayoutDashboard>
-            <Flex width={'100%'} height="100vh">
-                <Box width={'500px'} height="100%" bg="pink.100" overflow={'scroll'}>
-                    <NavBar ingredients={dataIngredient} addItem={addItem} />
-                </Box>
-                <Flex width={'100%'} height="100%" bg="red.500">
-                    {loading && <div>Loading........</div>}
-                    {console.log({ cateListIngredient })}
-                    <IngredientList
-                        list={cateListIngredient}
-                        onDecrease={onDecrease}
-                        addItem={addItem}
-                        totalRecipe={totalRecipe}
-                    />
-                    <BoxStep onSubmit={onCreate} />
-                </Flex>
-            </Flex>
+            <Head>
+                <title>Create</title>
+            </Head>
+            <FormRecipe
+                dataIngredient={dataIngredient}
+                addItem={addItem}
+                cateListIngredient={cateListIngredient}
+                onDecrease={onDecrease}
+                totalRecipe={totalRecipe}
+                onSubmit={onCreate}
+            />
         </LayoutDashboard>
     );
 };
 
 export default CreateRecipe;
+
+{
+    /* 
+            <Flex width={'100%'} height="100vh">
+                <MotionFlex
+                    variants={variants}
+                    initial={'initial'}
+                    animate={show.show1 || show.show2 ? 'open' : 'close'}
+                    height="100%"
+                    bg="yellow.200"
+                    position={'fixed'}
+                    zIndex="2"
+                >
+                    <MotionBox
+                        variants={variants}
+                        initial={'initial'}
+                        animate={show.show1 ? 'open' : 'close'}
+                        width={['100%', '60%', '100%']}
+                        bg="pink.100"
+                        maxWidth={'450px'}
+                        overflow={'scroll'}
+                    >
+                        <NavBar ingredients={dataIngredient} addItem={addItem} />
+                    </MotionBox>
+                    <MotionBox
+                        variants={variants}
+                        initial={'initial'}
+                        animate={show.show2 ? 'open' : 'close'}
+                        height="100%"
+                    >
+                        <IngredientList
+                            list={cateListIngredient}
+                            onDecrease={onDecrease}
+                            addItem={addItem}
+                            totalRecipe={totalRecipe}
+                        />
+                    </MotionBox>
+                    <Flex
+                        height={'100%'}
+                        display={['flex', 'flex', 'none']}
+                        direction={'column'}
+                        gap="5px 0"
+                        width={'fit-content'}
+                        bg="tomato"
+                    >
+                        <Button onClick={() => setShow((show) => ({ ...show, show1: !show.show1 }))}>Show</Button>
+                        <Button onClick={() => setShow((show) => ({ ...show, show2: !show.show2 }))}>Show 2</Button>
+                    </Flex>
+                </MotionFlex>
+                <Flex width={'100%'} height="100%" bg="red.500">
+                    <BoxStep onSubmit={onCreate} />
+                </Flex>
+            </Flex> */
+}

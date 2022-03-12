@@ -16,31 +16,13 @@ interface DetailRecipeLayout {
 const DetailRecipe: NextPage<DetailRecipeLayout> = ({ data }) => {
     const router = useRouter();
     const [cateListIngredient, setCateListIngredient] = useState<{ [key: string]: IngredientPost[] }>({});
-    // const [data, setData] = useState<ResponseRecipeAfter>();
     useEffect(() => {
-        // const { id } = router.query;
-        // const getData = async () => {
-        //     const result = await RecipeApis.getDetailRecipe(id as string);
-        //     if (result.data) {
-        //         if (Object.keys(cateListIngredient).length === 0) {
-        //             let nameCate: ingredientModel = data
-        //                 .ingredients!.map((el) => el.nameCate)
-        //                 .reduce((a, v) => ({ ...a, [v as string]: [] }), {});
-        //             setCateListIngredient(nameCate);
-        //             if (Object.keys(nameCate).length > 1) {
-        //                 data.ingredients!.forEach((item) => {
-        //                     nameCate[item.nameCate].push(item);
-        //                 });
-        //             }
-        //         }
-        //     }
-        // };
         if (Object.keys(cateListIngredient).length === 0) {
             let nameCate: ingredientModel = data
                 .ingredients!.map((el) => el.nameCate)
                 .reduce((a, v) => ({ ...a, [v as string]: [] }), {});
             setCateListIngredient(nameCate);
-            if (Object.keys(nameCate).length > 1) {
+            if (Object.keys(nameCate).length >= 1) {
                 data.ingredients!.forEach((item) => {
                     nameCate[item.nameCate].push(item);
                 });
@@ -58,7 +40,7 @@ const DetailRecipe: NextPage<DetailRecipeLayout> = ({ data }) => {
             overflowY="scroll"
             padding={'5px'}
             margin="0 auto"
-            minWidth={'500px'}
+            minWidth={'300px'}
         >
             <Head>
                 <link rel="icon" href={data.img} />
@@ -71,7 +53,7 @@ const DetailRecipe: NextPage<DetailRecipeLayout> = ({ data }) => {
                     position="relative"
                     flexShrink={0}
                 >
-                    <Image src={data.img as string} alt={data.title} layout="fill" objectFit="cover" />
+                    <Image src={data.img as string} alt={data.title} layout="fill" objectFit="contain" />
                 </Box>
                 <Flex gap={'5px 0'} wrap="wrap" width={'100%'} height="fit-content">
                     {Object.entries(cateListIngredient).map((item) => {

@@ -16,7 +16,7 @@ const ToastItem = ({ toast }: ToastItemModel) => {
         return () => window.clearInterval(removeToast);
     }, [dispatch, toast]);
     return (
-        <Alert status={`${toast.type === 'error' ? 'error' : 'success'}`}>
+        <Alert   status={`${toast.type === 'error' ? 'error' : 'success'}`}>
             <AlertIcon />
             {toast.message}
         </Alert>

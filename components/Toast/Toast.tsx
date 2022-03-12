@@ -12,7 +12,7 @@ const Toast = () => {
     const notifications = useSelector((state: RootState) => state.notifications);
 
     return (
-        <Box width={'100%'} position="absolute" height={'fit-content'} bg="gray.100" top={0}>
+        <Box width={'100%'} position="absolute" height={'fit-content'} bg="gray.100" top={0} zIndex={'9999'}>
             <Flex
                 direction={'column-reverse'}
                 justifyContent="flex-end"

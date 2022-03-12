@@ -48,10 +48,6 @@ const Home: NextPage<HomeLayout> = ({ ListRecipe }) => {
             </Head>
             {token && user.bmiId.bmi! < 10 && <BoxBMI />}
             <Flex width={'100%'} height="100vh">
-                {/* <Box width={'300px'} height="100%" bg="pink.100" overflow={'scroll'}>
-                    {ingredients.length > 1 ? <NavBar ingredients={ingredients} /> : <div>Loading....</div>}
-                </Box> */}
-
                 {ListRecipe ? (
                     <Flex
                         width={'100%'}
