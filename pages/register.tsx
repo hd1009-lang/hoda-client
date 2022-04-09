@@ -78,7 +78,7 @@ const RegisterPage: NextPage = () => {
                             placeholder="Mật khẩu của bạn"
                             {...register('password', {
                                 required: 'Vui lòng nhập mật khẩu',
-                                minLength: { value: 8, message: 'Mật khẩu ít nhất 5 kí tự' },
+                                minLength: { value: 8, message: 'Mật khẩu ít nhất 8 kí tự' },
                                 pattern: { value: /^\S+$/g, message: 'Không chưa khoảng trắng' },
                                 validate: {
                                     digit: (value) => (value && /(?=(.*[\d]){2})/g.test(value)) || 'Ít nhất 2 ký tự số',
